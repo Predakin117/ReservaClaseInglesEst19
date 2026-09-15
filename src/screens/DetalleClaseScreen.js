@@ -2,30 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {useResponsive} from '../hooks/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import EtiquetaNivel from '../components/EtiquetaNivel';
-import {colors, spacing, typography, sombra} from '../theme';
+import { colors, radius, spacing, typography, sombra } from '../theme';
 
 export default function DetalleClaseScreen({ route, navigation }) {
     const insets = useSafeAreaInsets();
-    const {clase} = route.params;
+    const clase = route?.params?.clase;
+
+    if (!clase) {
+        return (
+            <View style={[styles.pantalla, { paddingTop: insets.top + spacing.lg, paddingHorizontal: spacing.lg }]}>
+                <Text style={{ color: colors.texto }}>No se encontró información de la clase.</Text>
+            </View>
+        );
+    }
 
     return (
-        <View>
+        <View style={styles.pantalla}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 120 }}
             >
-                <Image source={{uri: clase.imagen}} resizeMode="cover" style={styles.portada} />
-                //Foto del profesor al lado su nombre con apellido
-                //precio
-                //duracion
-                //cupos
-                //horarios
-                //boton de reservar clase
+                <Image source={{uri: clase.imagen}} resizeMode="cover" style={[styles.portada, { height: 220 }]} />
+                {/* Foto del profesor al lado su nombre con apellido */}
+                {/* precio */}
+                {/* duracion */}
+                {/* cupos */}
+                {/* horarios */}
+                {/* boton de reservar clase */}
             </ScrollView>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

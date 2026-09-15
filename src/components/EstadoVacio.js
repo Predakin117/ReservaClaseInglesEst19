@@ -6,16 +6,19 @@ export default function EstadoVacio({
   icono = "calendar-outline",
   titulo,
   mensaje,
+  onAction,
   OnAction,
 }) {
-  <View style={styles.contenedor}>
-    <View style={styles.circulo}>
-      <Ionicons name={icono} size={34} color={colors.primario} />
-    </View>
+  return (
+    <View style={styles.contenedor}>
+      <View style={styles.circulo}>
+        <Ionicons name={icono} size={34} color={colors.primario} />
+      </View>
 
-    <Text style={styles.titulo}>{titulo}</Text>
-    <Text style={styles.mensaje}>{mensaje}</Text>
-  </View>;
+      <Text style={styles.titulo}>{titulo}</Text>
+      <Text style={styles.mensaje}>{mensaje}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

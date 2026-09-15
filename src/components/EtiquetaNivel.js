@@ -3,7 +3,7 @@ import { colors, spacing } from "../theme";
 
 export default function EtiquetaNivel({ nivel }) {
   return (
-    <View style={[styles.contenedor, { backgroundColor: colors.fondo }]}>
+    <View style={[styles.contenedor, { backgroundColor: colors.primario }]}>
       <Text style={styles.texto}>{nivel}</Text>
     </View>
   );
