@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Card from "../components/Card";
@@ -19,7 +20,8 @@ import useResponsive from "../hooks/useResponsive";
 import { CLASES, NIVELES } from "../data/clases";
 import { colors, radius, spacing } from "../theme";
 
-export default function ClasesScreen({ navigation }) {
+export default function ClasesScreen() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { columnas, paddingHorizontal } = useResponsive();
 
@@ -87,7 +89,7 @@ export default function ClasesScreen({ navigation }) {
         renderItem={({ item }) => (
           <Card
             clase={item}
-            onPress={() => navigation?.navigate?.("DetalleClase", { clase: item })}
+            onPress={() => router.push({ pathname: "/detalle-clase", params: { id: item.id } })}
           />
         )}
         contentContainerStyle={{

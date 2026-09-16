@@ -3,26 +3,26 @@ import { formatearPrecio } from "../data/clases";
 import { colors } from "../theme";
 import EtiquetaNivel from "./EtiquetaNivel";
 
-export default function Card({ clase, clases, onPress }) {
-  const item = clase || clases;
-  if (!item) return null;
-
+export default function Card({ clase, onPress }) {
   return (
-    <Pressable onPress={onPress} style={styles.card}>
-      <Image source={{ uri: item.imagen }} style={styles.imagen} />
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.contenedor, pressed && styles.presionado]}
+    >
+      <Image source={{ uri: clase.imagen }} style={styles.imagen} />
       <View style={styles.info}>
-        <EtiquetaNivel nivel={item.nivel} />
-        <Text style={styles.titulo}>{item.titulo}</Text>
-        <Text>{item.nivel}</Text>
-        <Text>{item.profesor?.nombre}</Text>
-        <Text>{formatearPrecio(item.precio)}</Text>
+        <EtiquetaNivel nivel={clase.nivel} />
+        <Text style={styles.titulo}>{clase.titulo}</Text>
+        <Text>{clase.nivel}</Text>
+        <Text>{clase.profesor?.nombre}</Text>
+        <Text>{formatearPrecio(clase.precio)}</Text>
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  contenedor: {
     marginBottom: 16,
     borderRadius: 12,
     overflow: "hidden",
