@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import {
     Alert,
     Image,
@@ -18,6 +19,8 @@ export default function DetalleClaseScreen() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams();
   const clase = CLASES.find((item) => item.id === id);
+  const [cupos, setCupos] = useState(clase?.cupos ?? 0);
+  const [reservado, setReservado] = useState(false);
 
   if (!clase) {
     return (
@@ -90,7 +93,7 @@ export default function DetalleClaseScreen() {
             </View>
             {/* cupos */}
             <View style={styles.dato}>
-              <Text style={styles.datoValor}>{clase.cupos}</Text>
+              <Text style={styles.datoValor}>{cupos}</Text>
               <Text style={{ color: colors.textoSuave, fontSize: 12 }}>
                 Cupos
               </Text>
@@ -142,13 +145,36 @@ export default function DetalleClaseScreen() {
           <Text style={styles.precio}>{formatearPrecio(clase.precio)}</Text>
         </View>
         <Pressable
-          style={styles.botonReservar}
-          onPress={() =>
-            Alert.alert("Clase reservada", `Reservaste "${clase.titulo}"`)
-          }
+          style={[
+            styles.botonReservar,
+            (cupos <= 0 || reservado) && styles.botonReservarDeshabilitado,
+          ]}
+          disabled={cupos <= 0 || reservado}
+          onPress={() => {
+            if (cupos <= 0) {
+              Alert.alert(
+                "Sin cupos",
+                "Ya no quedan cupos disponibles para esta clase.",
+              );
+              return;
+            }
+            clase.cupos = cupos - 1;
+            setCupos(clase.cupos);
+            setReservado(true);
+            Alert.alert(
+              "Clase reservada",
+              `Reservaste "${clase.titulo}". Cupos restantes: ${clase.cupos}`,
+            );
+          }}
         >
           <Ionicons name="calendar" size={18} color="#fff" />
-          <Text style={styles.botonReservarTexto}>Reservar clase</Text>
+          <Text style={styles.botonReservarTexto}>
+            {reservado
+              ? "Reservado"
+              : cupos <= 0
+                ? "Sin cupos"
+                : "Reservar clase"}
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -221,4 +247,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
   },
   botonReservarTexto: { color: "#fff", fontWeight: "700", fontSize: 15 },
+  botonReservarDeshabilitado: {
+    backgroundColor: colors.textoSuave,
+    opacity: 0.6,
+  },
 });
